@@ -1,7 +1,6 @@
-from contents.tokens.token import _Token
+from contents.token.token_enum import Token
 
 if __name__ == "__main__":
-    print(f'{__name__=}')
 
-    token = _Token('Gold', 'Yellow', '🟡', 10)
+    token = Token.GOLD
     print(token)
