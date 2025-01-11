@@ -4,7 +4,9 @@ from typing import Self
 class _TokenVector:
     """
     TokenVector class representing a collection of tokens.
-    This collection should be able to be added and subtracted from another of its type.
+    This collection is able to be added and subtracted item-wise from another of its type.
+    It's also able to be multiplied by a scalar.
+    It's can also be compared to another of its type (partial order).
     """
     _tokens: dict[_Token, int]
 
@@ -45,6 +47,21 @@ class _TokenVector:
         result = _TokenVector()
         result.tokens = { token: count * scalar for token, count in self.tokens.items() }
         return result
+    
+    def magnitude(self: Self) -> int:
+        return sum(self.tokens.values())
+    
+    def __eq__(self: Self, other: Self) -> bool:
+        return self.tokens == other.tokens
+    
+    def __le__(self: Self, other: Self) -> bool:
+        if any(token not in other.tokens for token in self.tokens.keys()):
+            return False
+        
+        return all(self.tokens[token] <= other.tokens[token] for token in self.tokens.keys())
+    
+    def __ge__(self: Self, other: Self) -> bool:
+        return other <= self
     
     def __str__(self: Self) -> str:
         if len(self.tokens) == 0 or all(count == 0 for count in self.tokens.values()):
