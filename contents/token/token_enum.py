@@ -8,15 +8,14 @@ class Token(Enum):
     Each token has a name, color, symbol (emoji), and value.
     """
 
-    GOLD = _Token('Gold', 'Yellow', '🟡', 1)
-    EMERALD = _Token('Emerald', 'Green', '🟢', 1)
-    DIAMOND = _Token('Diamond', 'Blue', '🔵', 1)
-    SAPPHIRE = _Token('Sapphire', 'Purple', '🟣', 1)
-    RUBY = _Token('Ruby', 'Red', '🔴', 1)
-    ONYX = _Token('Onyx', 'Black', '⚫', 1)
+    EMERALD = _Token('Emerald', 'Green', '🟢')
+    DIAMOND = _Token('Diamond', 'Blue', '🔵')
+    SAPPHIRE = _Token('Sapphire', 'Purple', '🟣')
+    RUBY = _Token('Ruby', 'Red', '🔴')
+    ONYX = _Token('Onyx', 'Black', '⚫')
 
-    def __str__(self: Self):
+    def __str__(self: Self) -> str:
         return self.value.__str__()
 
-    def __repr__(self: Self):
+    def __repr__(self: Self) -> str:
         return self.value.__repr__()
