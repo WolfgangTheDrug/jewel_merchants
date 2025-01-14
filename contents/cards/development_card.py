@@ -1,9 +1,9 @@
 from token_collection._token import _Token
 from token_collection._token_vector import _TokenVector
 from typing import Literal, Self
-from util.card import Card
+from util._card import _Card
 
-class DevelopmentCard(Card):
+class DevelopmentCard(_Card):
     _bonus: _TokenVector
     _level: Literal[1, 2, 3]
 

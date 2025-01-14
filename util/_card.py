@@ -2,7 +2,7 @@ from typing import Self
 from token_collection._token_vector import _TokenVector
 from token_collection._token import _Token
 
-class Card:
+class _Card:
     def __init__(self: Self, prestige_points: int, cost: dict[_Token, int]):
         self._prestige_points = prestige_points
         self._cost = _TokenVector.from_tokens(cost)

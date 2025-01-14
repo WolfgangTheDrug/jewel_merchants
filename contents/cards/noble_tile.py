@@ -1,9 +1,9 @@
 from typing import Self
 from token_collection._token import _Token
-from util.card import Card
+from util._card import _Card
 from token_collection._token_vector import _TokenVector
 
-class NobleTile(Card):
+class NobleTile(_Card):
     def __init__(self: Self, prestige_points: int, cost: dict[_Token, int]):
         super().__init__(prestige_points, cost)
     
