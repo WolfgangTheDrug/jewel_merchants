@@ -9,6 +9,18 @@ class _Token:
     _color: str
     _symbol: str
 
+    @property
+    def name(self: Self) -> str:
+        return self._name
+    
+    @property
+    def color(self: Self) -> str:
+        return self._color
+    
+    @property
+    def symbol(self: Self) -> str:
+        return self._symbol
+
     def __str__(self: Self) -> str:
         return f'{self._symbol}'
 

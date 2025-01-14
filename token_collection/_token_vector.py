@@ -25,6 +25,12 @@ class _TokenVector:
     def tokens(self: Self):
         self._tokens = dict()
 
+    @classmethod
+    def from_tokens(cls: type[Self], tokens: dict[_Token, int]) -> Self:
+        result = cls()
+        result.tokens = tokens
+        return result
+    
     def __neg__(self: Self) -> Self:
         result = _TokenVector()
         result.tokens = { token: -count for token, count in self.tokens.items() }
@@ -67,7 +73,7 @@ class _TokenVector:
         if len(self.tokens) == 0 or all(count == 0 for count in self.tokens.values()):
             return 'No tokens'
         
-        return ';\n'.join([
+        return '; '.join([
             f'{ token.__str__() }: { count }' 
             for token, count in self.tokens.items() 
             if count > 0
@@ -75,3 +81,4 @@ class _TokenVector:
     
     def __repr__(self: Self) -> str:
         return ';\n'.join([f'{ token.__repr__() }' for token in self.tokens ])
+    

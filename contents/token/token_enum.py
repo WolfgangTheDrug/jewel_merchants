@@ -19,3 +19,15 @@ class Token(Enum):
 
     def __repr__(self: Self) -> str:
         return self.value.__repr__()
+    
+    @property
+    def name(self: Self) -> str:
+        return self.value.name
+    
+    @property
+    def color(self: Self) -> str:
+        return self.value.color
+    
+    @property
+    def symbol(self: Self) -> str:
+        return self.value.symbol
