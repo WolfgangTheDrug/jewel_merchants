@@ -32,6 +32,7 @@ class Board:
     @property
     def gold_count(self) -> int:
         return self._gold_count
+    
 
     @property
     def uncovered_development_cards(self, player_id: int) -> list[DevelopmentCard]:
