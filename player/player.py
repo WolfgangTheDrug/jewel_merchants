@@ -1,4 +1,4 @@
-from typing import Self
+from typing import Literal, Self
 from contents.cards.development_card import DevelopmentCard
 from contents.cards.noble_tile import NobleTile
 from token_collection._token_vector import _TokenVector
@@ -148,3 +148,13 @@ class Player:
         if self.bonuses < noble_tile.cost:
             raise ValueError("Not enough tokens to receive a noble tile.")
         self._add_noble_tile(noble_tile)
+
+    def move(self: Self):
+        move_choice: Literal[1, 2, 3, 4]
+
+        move_choice = input(
+            """Choose to perform only one of the following four actions:
+    1. Take 3 gem tokens of different colors,
+    2. Take 2 gem tokens of the same color (this action is only possible if there are at least 4 tokens of the chosen color left when the player takes them),
+    3. Reserve 1 development card and take 1 gold token (joker),
+    4. Purchase 1 face-up development card from the middle of the table or a previously reserved one.""")
