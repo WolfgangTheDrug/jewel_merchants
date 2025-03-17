@@ -1,5 +1,8 @@
+from app.src.player import ACTION, Player
+
+
 class Game:
-    players: list[Player] # type: ignore
+    players: list[Player]
     development_cards: CardAggregateByLevel # type: ignore
     noble_tiles: NobleTileAggregate # type: ignore
     gem_tokens: dict[Token, int] # type: ignore
@@ -10,7 +13,7 @@ class Game:
         players_count: int
         gem_token_count: int
         noble_tiles_count: int
-        player: Player  # type: ignore
+        player: Player
         player_id: int
         player_name: str
 
@@ -48,19 +51,21 @@ class Game:
     def next_turn(self) -> None:
         player_id: int
 
-        player_id = self.turn +1 % len(self.players)
+        player_id = (self.turn + 1) % len(self.players)
         self.request_move(player_id)
 
     def request_move(self, player_id: int) -> None: # type: ignore
         player_input: str
-        action: ACTION # type: ignore
+        action: ACTION
+        player: Player 
         
         print(f"Player's {player_id} move.")
         player_input = input("Please enter the move (1, 2, 3, 4): ")
         action = ACTION(int(player_input))
+        player = self.players[ player_id ].move()
 
     def end(self) -> None:
         pass
 
     def is_finished(self) -> bool:
-        pass
+        return self.players[ self.turn ].prestige_points == 15
