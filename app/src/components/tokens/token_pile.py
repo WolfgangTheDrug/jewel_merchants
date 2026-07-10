@@ -21,14 +21,14 @@ class TokenPile:
     _type: TokenType
     _count: int
 
-    def __init__(self, type: TokenType, count: int = 0, *, _bypass_validation: bool = False) -> None:
+    def __init__(self, type: TokenType, count: int = 0, *, _bypass_count_validation: bool = False) -> None:
         """Initializes a token pile.
 
         Raises:
             InsufficientTokensError: If count is below TOKEN_INSUFFICIENCY_LIMIT and validation isn't bypassed.
         """
-        # Using a keyword-only argument _bypass_validation to ensure internal-only usage.
-        if count < TOKEN_INSUFFICIENCY_LIMIT and not _bypass_validation:
+        # Using a keyword-only argument _bypass_count_validation to ensure internal-only usage.
+        if count < TOKEN_INSUFFICIENCY_LIMIT and not _bypass_count_validation:
             raise InsufficientTokensError(f"Insufficient tokens of type {type.name}: {count}.")
             
         self._type = type
@@ -55,7 +55,7 @@ class TokenPile:
 
     def __neg__(self) -> TokenPile:
         """Inverts the count of the pile safely for internal algebraic subtraction."""
-        return TokenPile(self.type, -self.count, _bypass_validation=True)
+        return TokenPile(self.type, -self.count, _bypass_count_validation=True)
 
     def __sub__(self, other: TokenPile) -> TokenPile:
         """Subtracts a token pile using algebraic negation."""
