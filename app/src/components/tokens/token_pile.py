@@ -59,7 +59,7 @@ class TokenPile:
 
     def __sub__(self, other: TokenPile) -> TokenPile:
         """Subtracts a token pile using algebraic negation."""
-        return self + -other
+        return self + (-other)
 
     def __eq__(self, other: object) -> bool:
         """Check if a token pile is the same as the other one, type and value."""
@@ -69,4 +69,4 @@ class TokenPile:
         return self.type == other.type and self.count == other.count
     
     def __repr__(self) -> str:
-        return f"TokenPile({self.type.name}: {self.count})"
+        return f"TokenPile({self._type.name}: {self._count})"
