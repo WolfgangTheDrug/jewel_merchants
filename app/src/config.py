@@ -16,7 +16,7 @@ TOKEN_INSUFFICIENCY_LIMIT: int = 0
 # The absolute limit a single player's inventory can hold at the end of a turn
 PLAYER_TOKEN_LIMIT: int = 10
 
-# Bank token counts vary dynamically by player count according to Splendor rules
+# Bank token counts vary dynamically by player count according to the game's rules
 BANK_LIMITS: Dict[int, Dict[str, int]] = {
     2: {"standard": 4, "gold": 5},
     3: {"standard": 5, "gold": 5},
