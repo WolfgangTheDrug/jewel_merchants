@@ -1,6 +1,8 @@
 from __future__ import annotations
 from enum import Enum, auto
 
+from app.src.config import TOKEN_INSUFFICIENCY_LIMIT
+
 from .exceptions import InsufficientTokensError, TokenMismatchError
 
 
@@ -23,10 +25,10 @@ class TokenPile:
         """Initializes a token pile.
 
         Raises:
-            InsufficientTokensError: If count is negative and validation isn't bypassed.
+            InsufficientTokensError: If count is below TOKEN_INSUFFICIENCY_LIMIT and validation isn't bypassed.
         """
         # Using a keyword-only argument _bypass_validation to ensure internal-only usage.
-        if count < 0 and not _bypass_validation:
+        if count < TOKEN_INSUFFICIENCY_LIMIT and not _bypass_validation:
             raise InsufficientTokensError(f"Insufficient tokens of type {type.name}: {count}.")
             
         self._type = type
@@ -45,7 +47,7 @@ class TokenPile:
 
         Raises:
             TokenMismatchError: If token types do not match.
-            InsufficientTokensError: If the resulting total drops below zero.
+            InsufficientTokensError: If the resulting total drops below TOKEN_INSUFFICIENCY_LIMIT.
         """
         if self.type != other.type:
             raise TokenMismatchError(f"Cannot mix tokens of type: {self.type.name} with: {other.type.name}.")
@@ -59,5 +61,12 @@ class TokenPile:
         """Subtracts a token pile using algebraic negation."""
         return self + -other
 
+    def __eq__(self, other: object) -> bool:
+        """Check if a token pile is the same as the other one, type and value."""
+        if not isinstance(other, TokenPile):
+            return NotImplemented
+        
+        return self.type == other.type and self.count == other.count
+    
     def __repr__(self) -> str:
         return f"TokenPile({self.type.name}: {self.count})"
