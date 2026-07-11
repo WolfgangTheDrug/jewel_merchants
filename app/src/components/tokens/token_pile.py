@@ -12,16 +12,16 @@ class TokenType(Enum):
     SAPPHIRE = auto()
     DIAMOND = auto()
     ONYX = auto()
-    GOLD = auto()
+    GOLD = auto() # This one is special...
 
 
 class TokenPile:
-    """Manages a single type of currency pile for Splendor."""
+    """Manages a single type of currency pile for the game."""
 
     _type: TokenType
     _count: int
 
-    def __init__(self, type: TokenType, count: int = 0, *, _bypass_count_validation: bool = False) -> None:
+    def __init__(self, token_type: TokenType, count: int = 0, *, _bypass_count_validation: bool = False) -> None:
         """Initializes a token pile.
 
         Raises:
@@ -29,13 +29,18 @@ class TokenPile:
         """
         # Using a keyword-only argument _bypass_count_validation to ensure internal-only usage.
         if count < TOKEN_INSUFFICIENCY_LIMIT and not _bypass_count_validation:
-            raise InsufficientTokensError(f"Insufficient tokens of type {type.name}: {count}.")
+            raise InsufficientTokensError(f"Insufficient tokens of type {token_type.name}: {count}.")
             
-        self._type = type
+        self._type = token_type
         self._count = count
 
+    @classmethod
+    def single(cls, token_type: TokenType):
+        """Syntactic sugar to create a single token acting as a pile."""
+        return cls(token_type, 1)
+    
     @property
-    def type(self) -> TokenType:
+    def token_type(self) -> TokenType:
         return self._type
     
     @property
@@ -49,13 +54,13 @@ class TokenPile:
             TokenMismatchError: If token types do not match.
             InsufficientTokensError: If the resulting total drops below TOKEN_INSUFFICIENCY_LIMIT.
         """
-        if self.type != other.type:
-            raise TokenMismatchError(f"Cannot mix tokens of type: {self.type.name} with: {other.type.name}.")
-        return TokenPile(self.type, self.count + other.count)
+        if self.token_type != other.token_type:
+            raise TokenMismatchError(f"Cannot mix tokens of type: {self.token_type.name} with: {other.token_type.name}.")
+        return TokenPile(self.token_type, self.count + other.count)
 
     def __neg__(self) -> TokenPile:
         """Inverts the count of the pile safely for internal algebraic subtraction."""
-        return TokenPile(self.type, -self.count, _bypass_count_validation=True)
+        return TokenPile(self.token_type, -self.count, _bypass_count_validation=True)
 
     def __sub__(self, other: TokenPile) -> TokenPile:
         """Subtracts a token pile using algebraic negation."""
@@ -66,7 +71,7 @@ class TokenPile:
         if not isinstance(other, TokenPile):
             return NotImplemented
         
-        return self.type == other.type and self.count == other.count
+        return self.token_type == other.token_type and self.count == other.count
     
     def __repr__(self) -> str:
         return f"TokenPile({self._type.name}: {self._count})"

@@ -20,7 +20,7 @@ def test_init_stores_valid_data(type_a, count_a):
     
     if count_a < TOKEN_INSUFFICIENCY_LIMIT:
         pile = TokenPile(type_a, count_a, _bypass_count_validation = True)
-        assert pile.type == type_a
+        assert pile.token_type == type_a
         assert pile.count == count_a
 
         with pytest.raises(InsufficientTokensError):
@@ -28,8 +28,19 @@ def test_init_stores_valid_data(type_a, count_a):
         return
 
     pile = TokenPile(type_a, count_a)
-    assert pile.type == type_a
+    assert pile.token_type == type_a
     assert pile.count == count_a
+
+def test_single_token_creation():
+    type_a: TokenType
+    count_a: int
+    pile_a: TokenPile
+
+    count_a = 1
+    for type_a in TokenType:
+        pile_a = TokenPile.single(type_a)
+        assert pile_a.token_type == type_a
+        assert pile_a.count == count_a
 
 @given(
     type_a=st.sampled_from(TokenType),
@@ -53,7 +64,7 @@ def test_token_pile_addition(type_a: TokenType, count_a: int, type_b: TokenType,
     count_sum = count_a + count_b
     pile_sum = pile_a + pile_b
 
-    assert pile_sum.type == type_a == type_b
+    assert pile_sum.token_type == type_a == type_b
     assert pile_sum.count == count_sum
 
 @given(
@@ -78,7 +89,7 @@ def test_token_pile_subtraction(type_a: TokenType, count_a: int, type_b: TokenTy
     count_sum = count_a - count_b
     pile_sum = pile_a - pile_b
 
-    assert pile_sum.type == type_a == type_b
+    assert pile_sum.token_type == type_a == type_b
     assert pile_sum.count == count_sum
 
 @given(
@@ -93,7 +104,7 @@ def test_token_pile_negetion(type_a: TokenType, count_a: int):
     pile_b = -pile_a
 
     assert pile_b.count == -count_a
-    assert pile_b.type == type_a
+    assert pile_b.token_type == type_a
 
 @given(
     type_a=st.sampled_from(TokenType),
